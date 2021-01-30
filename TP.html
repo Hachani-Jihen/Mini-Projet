@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    
+        <link href="bootstrap4/css/bootstrap.min.css" rel="stylesheet">
+        <script>
+            var xhr = new XMLHttpRequest();
+            var urlPfeBytype = 'https://appessat707.000webhostapp.com/pfespartypes.php?type=';
+            var urlAllPfes = 'https://appessat707.000webhostapp.com/pfes.php';
+            function charge(query) {
+             
+                if(query == null){
+                    console.log(urlAllPfes);
+                    xhr.open('GET', urlAllPfes, true);
+                 }else{
+                    document.querySelector('.active').classList.remove('active');
+                    event.currentTarget.classList.add('active'); 
+                    var urlQuery = urlPfeBytype+query;
+                    // console.log(urlQuery);
+                     xhr.open('GET',urlQuery , true);
+
+                }
+                xhr.send();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+               
+                        remplir(query,xhr.responseXML);
+                        compter(xhr.responseXML);
+                        
+                    }
+                }
+    
+            }
+            function remplir(query,data) {
+             //console.log('query is : '+query);
+                var tbody = document.querySelector('tbody');
+                var els = data.getElementsByTagName('pfe');
+                var countels = els.length;
+        
+                tbody.innerHTML = "";
+                    for (var i = 0; i < countels; i++) {
+                        var tr = document.createElement('tr');
+                        var id = document.createElement('td');
+                        var titre = document.createElement('td');
+                        var type = document.createElement('td');
+
+                        id.innerHTML = els[i].getAttribute('id');
+                        titre.innerHTML =els[i].getAttribute('titre');
+                        type.innerHTML = els[i].getAttribute('type');
+
+                        tr.appendChild(id);
+                        tr.appendChild(titre);
+                        tr.appendChild(type);
+
+                        tbody.appendChild(tr);
+                    
+                    }
+               // document.getElementById("sommetelcom").innerHTML = strOut;
+            }
+
+     function compter(data){
+        var els = data.getElementsByTagName('pfe');
+        //var typ=document.getElementById('type');
+        var x=document.getElementById('somme');
+        var x2=document.getElementById('sommeDev');
+        var x1=document.getElementById('sommetelcom');
+        var x3=document.getElementById('sommeRes');
+        var x4=document.getElementById('sommeEmb');
+          
+        var countels = els.length;
+        
+        console.log(els.length);
+        
+        var comptt=0;
+        var comptd=0;
+        var comptr=0;
+        var compte=0;
+        for (var i=0;i < countels; i++){
+            //  console.log(els[i].getAttribute('type'));
+         if(els[i].getAttribute('type') == "Telecom"){
+           comptt++;
+           
+          }
+          if(els[i].getAttribute('type') == "Developpement"){
+           comptd++;
+           
+          }if(els[i].getAttribute('type') == "Reseaux"){
+           comptr++;
+           
+          }
+          if(els[i].getAttribute('type') == "Embarques et IoT"){
+           compte++;
+           
+          }
+          console.log=(comptt);
+         
+        }
+        x.innerHTML=countels;
+        x1.innerHTML=comptt;
+          x2.innerHTML=comptd;
+          x3.innerHTML=comptr;
+          x4.innerHTML=compte;
+       
+      
+      
+
+
+    }
+
+
+        </script>
+    </head>
+    <body onload="charge()" > 
+
+        <div class="container-fluid">
+            <div class="row bg-primary text-white">
+                <div class="col">
+                    <div class=" card card-header bg-primary text-white ">
+                    <h1> Catalogue  des PFEs ESSAT</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3  mt-2">
+    
+                    <div class="list-group-item ">
+    
+                        <li class="list-group-item list-group-item-action active  ">
+                            <a href="#" class="btn   " onclick="charge()" id="mess"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-grid-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3z"/>
+                                  </svg> Tous les PFEs
+                            </a> 
+                            <span class="badge badge-warning badge-pill" id="somme"></span>
+                        </li>
+    
+                        <li class="list-group-item list-group-item-action  ">
+                            <a href="#" class="btn  " onclick="charge('Telecom')">
+                                <svg width="1em" height="1em " viewBox="0 0 16 16 " class="bi bi-grid-fill " fill="currentColor
+                                    " xmlns="http://www.w3.org/2000/svg ">
+                                     <path fill-rule="evenodd " d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm-8
+                                    8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3z "/>
+                                </svg> 
+                            PFEs Télécom
+                            </a>
+                            <span class="badge badge-primary badge-pill " id="sommetelcom"></span>
+                        </li>
+    
+                        <li class="list-group-item list-group-item-action "> 
+                            <a href="# " class="btn " onclick="charge('Developpement') " id="PFEsDéveleppement ">
+                                <svg width="1em " height="1em " viewBox="0 0 16 16 " class="bi bi-grid-fill " fill="currentColor
+                                " xmlns="http://www.w3.org/2000/svg ">
+                                    <path fill-rule="evenodd " d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm-8
+                                    8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3z "/>
+                                </svg> 
+                            PFEs Developement 
+                            </a>
+                            <span class="badge badge-primary badge-pill" id="sommeDev"></span>
+                        </li>
+                        <li class="list-group-item list-group-item-action ">
+                            <a href="# " class="btn " onclick="charge('reseaux')">
+                                <svg width="1em " height="1em " viewBox="0 0 16 16 " class="bi bi-grid-fill " fill="currentColor " xmlns="http://www.w3.org/2000/svg ">
+                                    <path fill-rule="evenodd " d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9
+                                    5.5v-3zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3z "/>
+                                </svg>
+                                 PFEs Reseaux 
+                            </a> 
+                            <span class="badge badge-primary badge-pill" id="sommeRes"></span>
+                        </li>
+                        <li class="list-group-item list-group-item-action ">
+                            <a href="# " class="btn " onclick="charge('Embarques et IoT')">
+                                <svg width="1em " height="1em " viewBox="0 0 16 16 " class="bi bi-grid-fill " fill="currentColor " xmlns="http://www.w3.org/2000/svg ">
+                                    <path fill-rule="evenodd " d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9
+                                    5.5v-3zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3z "/>
+                                </svg> 
+                            PFEs Embarque et IOT
+                            </a>
+                            <span class="badge badge-primary badge-pill" id="sommeEmb"></span>
+    
+                        </li>
+                    </div>
+    
+    
+                </div>
+                <div class="col mt-2">
+                    <div class="card ">
+    
+                        <table id="tab ">
+                            <div class="col card-card header ">
+                                <thead>
+                                    <tr class="bg-success text-white ">
+                                        <th colspan="3 ">
+                                            <h4 class="bg-success text-white p-2 pl-4 m-0 rounded-top">Liste des PFEs</h4>
+                                        </th>
+                                    </tr>
+    
+    
+                                    <tr class="bg-light">
+                                        <th > Id </th>
+                                        <th > Titre </th>
+                                        <th id="type"> Type </th>
+                                    </tr>
+                            </div>
+                            </thead>
+    
+    
+    
+    
+    
+                    </div>
+                    <tbody>
+    
+                    </tbody>
+                    </table>
+    
+    
+    
+                </div>
+    
+            </div>
+        </div>
+       
+    </body>
+</html>
